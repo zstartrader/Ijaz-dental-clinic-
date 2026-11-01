@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ijaz Dental Clinic</title>
+<style>
+:root{--bg1:#e8f7f3;--bg2:#d3ece6;--card:#ffffff;--text:#103a35;--muted:#58807a;--a:#0f9d8a;--a2:#0b7d6e;--b:#f2994a;--line:#cfe5e0;--ok:#1a8a5a;--err:#c0392b;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#0b1f1d;--bg2:#12312d;--card:#173936;--text:#e3f5f1;--muted:#92b8b1;--a:#2fcdb7;--a2:#5fe0cd;--b:#f6ad6c;--line:#265049;--ok:#5fe0a8;--err:#ff8a7a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg1:#0b1f1d;--bg2:#12312d;--card:#173936;--text:#e3f5f1;--muted:#92b8b1;--a:#2fcdb7;--a2:#5fe0cd;--b:#f6ad6c;--line:#265049;--ok:#5fe0a8;--err:#ff8a7a;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;background:linear-gradient(160deg,var(--bg1),var(--bg2));color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:40px 20px}
+.hero{text-align:center;margin-bottom:30px}
+.mark{display:inline-grid;place-items:center;width:84px;height:84px;border-radius:50%;background:var(--card);border:3px solid var(--a);font-size:40px;box-shadow:0 8px 24px rgba(15,157,138,.25)}
+h1{margin:16px 0 6px;font-size:clamp(28px,7vw,44px)}
+h1 span{color:var(--a)}
+.tag{margin:0;color:var(--muted)}
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:24px}
+@media(max-width:480px){.tiles{grid-template-columns:1fr}}
+.tile{font:inherit;cursor:pointer;border:0;border-radius:22px;padding:28px 16px;text-align:center;color:#fff;transition:transform .15s;box-shadow:0 8px 20px rgba(0,0,0,.15)}
+.tile:hover{transform:translateY(-3px)}
+.tile .ic{display:block;font-size:40px;margin-bottom:6px}
+.tile .tx{display:block;font-size:20px;font-weight:700}
+#bSearch{background:linear-gradient(135deg,#2a7de1,#1a5fb8)}
+#bNew{background:linear-gradient(135deg,var(--a),var(--a2));color:#06231f}
+#bPass{background:linear-gradient(135deg,#f6ad6c,#e0842f);color:#2b1403}
+.tile.active{outline:4px solid var(--b);outline-offset:3px}
+.panel{display:none;background:var(--card);border-radius:20px;padding:24px;border:1px solid var(--line);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.panel.show{display:block}
+.panel h2{margin:0 0 6px;font-size:22px}
+label,.lbl{display:block;font-size:14px;color:var(--muted);margin:14px 0 5px}
+input[type=text],input[type=tel],input[type=number],input[type=search]{width:100%;font:inherit;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:transparent;color:var(--text)}
+input:focus{outline:none;border-color:var(--a)}
+input[readonly]{opacity:.8}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){.row{grid-template-columns:1fr}}
+.photo{border:2.5px dashed var(--a);border-radius:16px;min-height:150px;display:grid;place-items:center;text-align:center;cursor:pointer;overflow:hidden;color:var(--muted);padding:10px}
+.photo .big{font-size:42px;display:block}
+.photo img{width:100%;max-height:320px;object-fit:contain;display:block;border-radius:10px}
+.pbtns{display:none;gap:10px;margin-top:10px}
+.pbtns.show{display:flex}
+.pbtns button{flex:1;font:inherit;font-weight:700;border-radius:12px;padding:12px;cursor:pointer;border:2px solid var(--a)}
+.okb{background:var(--a);color:#06231f}
+.rtk{background:transparent;color:var(--a)}
+.pstat{margin-top:6px;font-size:14px;color:var(--ok);font-weight:600}
+.photo video{width:100%;max-height:360px;border-radius:10px;display:block;background:#000}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;inset:0;cursor:pointer;width:100%;height:100%;margin:0}
+.chip span{display:block;padding:11px 18px;border-radius:999px;border:2px solid var(--line);font-weight:600}
+.chip input:checked+span{background:var(--a);border-color:var(--a);color:#06231f}
+.chip input:focus-visible+span{outline:3px solid var(--b)}
+.save{margin-top:22px;width:100%;font:inherit;font-weight:700;font-size:17px;border:0;border-radius:12px;padding:14px;background:var(--a);color:#06231f;cursor:pointer}
+.save:hover{background:var(--a2)}
+.msg{margin-top:12px;font-weight:600;color:var(--ok)}
+.msg.err{color:var(--err)}
+.res{margin-top:14px;display:grid;gap:14px}
+.p{border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.p .im{width:100%;max-height:300px;object-fit:contain;display:block;background:rgba(0,0,0,.06)}
+.p .noim{height:90px;display:grid;place-items:center;font-size:38px;background:rgba(0,0,0,.06)}
+.p .bd{padding:13px 15px}
+.p .nm{font-size:19px;font-weight:700;color:var(--a)}
+.p .ln{margin-top:4px;color:var(--text)}
+.p .ln b{color:var(--muted);font-weight:600}
+.tg{display:inline-block;margin:4px 6px 0 0;padding:3px 11px;border-radius:999px;background:var(--a);color:#06231f;font-size:13px;font-weight:700}
+footer{text-align:center;color:var(--muted);font-size:13px;margin-top:28px}
+.hide{display:none!important}
+.rct{margin-top:14px}
+.rtl{font-size:14px;color:var(--muted);text-align:center}
+.cross{display:grid;grid-template-columns:1fr 1fr;max-width:340px;margin:8px auto 0}
+.cross input{border:0!important;border-radius:0!important;font-size:22px;letter-spacing:5px;padding:20px 10px!important;min-width:0}
+.cross input:nth-child(odd){text-align:right;direction:rtl;unicode-bidi:bidi-override}
+.cross input:nth-child(odd)::placeholder{direction:ltr;unicode-bidi:normal}
+.cross input:nth-child(even){text-align:left}
+.cross input:nth-child(1){border-right:3px solid var(--a)!important;border-bottom:3px solid var(--a)!important}
+.cross input:nth-child(2){border-bottom:3px solid var(--a)!important}
+.cross input:nth-child(3){border-right:3px solid var(--a)!important}
+.rv{display:grid;grid-template-columns:1fr 1fr;max-width:240px;margin:6px 0;font-size:18px;letter-spacing:3px}
+.rv div{padding:8px 10px}
+.rv div:nth-child(odd){text-align:right;direction:rtl;unicode-bidi:bidi-override}
+.rv div:nth-child(1){border-right:3px solid var(--a);border-bottom:3px solid var(--a)}
+.rv div:nth-child(2){border-bottom:3px solid var(--a)}
+.rv div:nth-child(3){border-right:3px solid var(--a)}
+.bbox{border:2px solid var(--line);border-radius:14px;padding:10px 14px;margin-top:10px}
+.bt{font-weight:700;color:var(--a);margin-bottom:2px}
+.tk{display:flex;align-items:center;gap:14px;margin:0;padding:11px 0;font-size:18px;color:var(--text);cursor:pointer}
+.tk+.tk,.bt+.tk{border-top:1px solid var(--line)}
+.tk input{width:26px;height:26px;margin:0;accent-color:var(--a);cursor:pointer}
+.shbox .chip span{padding:8px 15px}
+input[type=date]{width:100%;font:inherit;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:transparent;color:var(--text)}
+#bUpd{background:linear-gradient(135deg,#8e5be8,#6a3fc0)}
+#bPay{background:linear-gradient(135deg,#e5568a,#b8336a);grid-column:1/-1}
+.allb{width:100%;margin-top:10px;font:inherit;font-weight:700;border-radius:12px;padding:12px;cursor:pointer;border:2px solid var(--a);background:transparent;color:var(--a)}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:10px}
+.gal figure{margin:0}
+.gal img{width:100%;border-radius:10px;display:block}
+.gal figcaption{font-size:12px;color:var(--muted);text-align:center;margin-top:3px}
+.vrow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.vn{grid-column:1/-1;font-weight:700;color:var(--a)}
+.cp{display:flex;gap:8px}
+.cp input{flex:1;min-width:0}
+.cbtn{font:inherit;font-size:20px;cursor:pointer;border-radius:12px;border:2px solid var(--a);background:transparent;color:var(--a);padding:0 16px}
+input[type=password]{width:100%;font:inherit;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:transparent;color:var(--text)}
+.lo{margin:20px auto 0;display:block;font:inherit;font-weight:600;border-radius:12px;padding:10px 22px;cursor:pointer;border:2px solid var(--a);background:transparent;color:var(--a)}
+</style>
+<style>
+
+</style>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  font-family: Arial, sans-serif;
+  color: #172033;
+  background: linear-gradient(135deg, #e8efff, #f8e9d1);
+}
+.card {
+  width: min(90%, 520px);
+  padding: 42px;
+  border-radius: 24px;
+  background: white;
+  text-align: center;
+  box-shadow: 0 20px 60px #23385a22;
+}
+.tag { color: #9b6b17; font-weight: bold; letter-spacing: 2px; font-size: 12px; }
+h1 { font-size: 42px; margin: 18px 0 10px; }
+p { color: #667085; line-height: 1.6; }
+button {
+  padding: 12px 22px;
+  border: 0;
+  border-radius: 10px;
+  background: #172033;
+  color: white;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="mark">🦷</div>
+    <h1><span>Ijaz</span> Dental Clinic</h1>
+    <p class="tag">Healthy teeth, happy smile</p>
+  </div>
+
+  <section class="panel show" id="login">
+    <h2>Login</h2>
+    <label for="lu">Name</label>
+    <input id="lu" type="text" placeholder="Name" autocomplete="off" autocapitalize="off">
+    <label for="lp">Password</label>
+    <input id="lp" type="text" placeholder="Password" autocomplete="off">
+    <button class="save" id="lgo" type="button">Open</button>
+    <div class="msg err" id="lerr"></div>
+  </section>
+
+  <div id="app" class="hide">
+  <div class="tiles">
+    <button class="tile" id="bSearch"><span class="ic">🔍</span><span class="tx">Search Patient</span></button>
+    <button class="tile" id="bNew"><span class="ic">➕</span><span class="tx">New Patient</span></button>
+    <button class="tile" id="bPass"><span class="ic">🔑</span><span class="tx">Find Password</span></button>
+    <button class="tile" id="bUpd"><span class="ic">✏️</span><span class="tx">Update Patient</span></button>
+    <button class="tile" id="bPay"><span class="ic">💰</span><span class="tx">Payment &amp; Visits</span></button>
+  </div>
+
+  <section class="panel" id="pSearch">
+    <h2>Search Patient</h2>
+    <label for="q">Patient password</label>
+    <input id="q" type="search" placeholder="Enter patient password…" autocomplete="off" autocapitalize="off">
+    <div class="res" id="res"></div>
+  </section>
+
+  <section class="panel" id="pPay">
+    <h2>Payment &amp; Visits</h2>
+    <label for="yq">Patient password</label>
+    <input id="yq" type="text" placeholder="Enter patient password…" autocomplete="off" autocapitalize="off">
+    <button class="save" id="ybtn" type="button">Open</button>
+    <div class="msg err" id="ymsg"></div>
+    <div id="ydet" class="hide">
+      <div class="res"><div class="p"><div class="bd"><div class="nm" id="yname"></div></div></div></div>
+      <label for="ytp">Total payment (Rs)</label>
+      <input id="ytp" type="number" min="0" placeholder="Total payment, e.g. 10000">
+      <span class="lbl">Visits &amp; payment (max 10)</span>
+      <div id="yv"></div>
+      <button class="allb" id="yadd" type="button">+ Add next visit</button>
+      <div class="pstat" id="ytot"></div>
+      <button class="save" id="ysave" type="button">Save Payment &amp; Visits</button>
+      <div class="msg" id="ysm"></div>
+    </div>
+  </section>
+
+  <section class="panel" id="pUpd">
+    <h2>Update Patient</h2>
+    <label for="uq">Patient password</label>
+    <input id="uq" type="text" placeholder="Enter patient password…" autocomplete="off" autocapitalize="off">
+    <button class="save" id="ubtn" type="button">Open for update</button>
+    <div class="msg err" id="umsg"></div>
+  </section>
+
+  <section class="panel" id="pPass">
+    <h2>Find Password</h2>
+    <label for="fn">Patient name</label>
+    <input id="fn" type="text" placeholder="Type saved patient name…" autocomplete="off">
+    <div class="res" id="fres"></div>
+  </section>
+
+  <section class="panel" id="pNew">
+    <h2 id="nh">New Patient</h2>
+    <label for="n">Name</label>
+    <input id="n" type="text" placeholder="Patient name" autocomplete="off">
+    <label for="pp">Patient password (auto)</label>
+    <div class="cp"><input id="pp" type="text" readonly placeholder="Type the name to get password"><button class="cbtn" id="cpy" type="button" aria-label="Copy password">📋</button></div>
+    <div class="row">
+      <div><label for="ag">Age</label><input id="ag" type="number" min="0" max="120" placeholder="Age"></div>
+      <div><label for="dt">Date (auto)</label><input id="dt" type="text" readonly></div>
+    </div>
+    <label for="ph">Phone (optional)</label>
+    <input id="ph" type="tel" placeholder="03xx-xxxxxxx">
+    <span class="lbl">Shade</span>
+    <div class="bbox shbox">
+      <div class="chips">
+        <label class="chip"><input type="checkbox" name="sh" value="A1"><span>A1</span></label>
+        <label class="chip"><input type="checkbox" name="sh" value="A2"><span>A2</span></label>
+        <label class="chip"><input type="checkbox" name="sh" value="A3"><span>A3</span></label>
+        <label class="chip"><input type="checkbox" name="sh" value="A3.5"><span>A3.5</span></label>
+        <label class="chip"><input type="checkbox" name="sh" value="B1"><span>B1</span></label>
+        <label class="chip"><input type="checkbox" name="sh" value="B2"><span>B2</span></label>
+        <label class="chip"><input type="checkbox" name="sh" value="B3"><span>B3</span></label>
+        <label class="chip"><input type="checkbox" name="sh" value="B4"><span>B4</span></label>
+        <label class="chip"><input type="checkbox" name="sh" value="C1"><span>C1</span></label>
+        <label class="chip"><input type="checkbox" name="sh" value="C2"><span>C2</span></label>
+        <label class="chip"><input type="checkbox" name="sh" value="C3"><span>C3</span></label>
+        <label class="chip"><input type="checkbox" name="sh" value="C4"><span>C4</span></label>
+        <label class="chip"><input type="checkbox" name="sh" value="D1"><span>D1</span></label>
+        <label class="chip"><input type="checkbox" name="sh" value="D3"><span>D3</span></label>
+        <label class="chip"><input type="checkbox" name="sh" value="D4"><span>D4</span></label>
+      </div>
+    </div>
+    
+
+    <span class="lbl">Photo</span>
+    <input id="cam" type="file" accept="image/*" capture="environment" hidden>
+    <div class="photo" id="photo" role="button" tabindex="0" aria-label="Take photo">
+      <div><span class="big">📷</span>Tap here to open camera</div>
+    </div>
+    <div class="pbtns" id="lb">
+      <button class="okb" id="snap" type="button">📸 Capture</button>
+      <button class="rtk" id="flip" type="button">🔄 Flip</button>
+      <button class="rtk" id="cx" type="button">✕</button>
+    </div>
+    <div class="pbtns" id="pb">
+      <button class="okb" id="ok" type="button">✓ OK</button>
+      <button class="rtk" id="retake" type="button">Retake</button>
+    </div>
+    <div class="pstat" id="pst"></div>
+    <button class="allb hide" id="allb" type="button">🖼 Show All Images</button>
+    <div class="gal hide" id="gal"></div>
+
+    <span class="lbl">Treatment required</span>
+    <div class="chips">
+      <label class="chip"><input type="checkbox" name="t" value="RCT"><span>RCT</span></label>
+      <label class="chip"><input type="checkbox" name="t" value="Fixed Braces"><span>Fixed Braces</span></label>
+      <label class="chip"><input type="checkbox" name="t" value="Panel Bridge"><span>Panel Bridge</span></label>
+    </div>
+    <div class="rct hide" id="rct">
+      <div class="rtl">RCT tooth numbers (1 to 8, up to 8 in each box)</div>
+      <div class="cross">
+        <input id="r_lu" type="text" inputmode="numeric" maxlength="8" placeholder="Left up" autocomplete="off" aria-label="Left up tooth numbers">
+        <input id="r_ru" type="text" inputmode="numeric" maxlength="8" placeholder="Right up" autocomplete="off" aria-label="Right up tooth numbers">
+        <input id="r_ld" type="text" inputmode="numeric" maxlength="8" placeholder="Left down" autocomplete="off" aria-label="Left down tooth numbers">
+        <input id="r_rd" type="text" inputmode="numeric" maxlength="8" placeholder="Right down" autocomplete="off" aria-label="Right down tooth numbers">
+      </div>
+    </div>
+    <div class="rct hide" id="pbx">
+      <div class="rtl">Panel Bridge tooth numbers (1 to 8, up to 8 in each box)</div>
+      <div class="cross">
+        <input id="b_lu" type="text" inputmode="numeric" maxlength="8" placeholder="Left up" autocomplete="off" aria-label="Bridge left up tooth numbers">
+        <input id="b_ru" type="text" inputmode="numeric" maxlength="8" placeholder="Right up" autocomplete="off" aria-label="Bridge right up tooth numbers">
+        <input id="b_ld" type="text" inputmode="numeric" maxlength="8" placeholder="Left down" autocomplete="off" aria-label="Bridge left down tooth numbers">
+        <input id="b_rd" type="text" inputmode="numeric" maxlength="8" placeholder="Right down" autocomplete="off" aria-label="Bridge right down tooth numbers">
+      </div>
+    </div>
+    <div class="rct hide" id="fbx">
+      <div class="rtl">Fixed Braces (tick to save)</div>
+      <div class="bbox">
+        <div class="bt">Wire size</div>
+        <label class="tk"><input type="checkbox" name="fw" value="0.12"><span>0.12</span></label>
+        <label class="tk"><input type="checkbox" name="fw" value="0.14"><span>0.14</span></label>
+        <label class="tk"><input type="checkbox" name="fw" value="0.16"><span>0.16</span></label>
+        <label class="tk"><input type="checkbox" name="fw" value="0.18"><span>0.18</span></label>
+        <label class="tk"><input type="checkbox" name="fw" value="0.662"><span>0.662</span></label>
+      </div>
+      <div class="bbox">
+        <div class="bt">Extra</div>
+        <label class="tk"><input type="checkbox" name="fe" value="Power Change"><span>Power Change</span></label>
+        <label class="tk"><input type="checkbox" name="fe" value="Lancse"><span>Lancse</span></label>
+      </div>
+    </div>
+
+    <button class="save" id="save" type="button">Save Patient</button>
+    <div class="msg" id="msg"></div>
+    <button class="lo hide" id="cedit" type="button">Cancel update</button>
+  </section>
+
+  <button class="lo" id="lo" type="button">Logout</button>
+  </div>
+  <footer>© Ijaz Dental Clinic</footer>
+</div>
+
+<script>
+var KEY="ajaz_patients_v2",mem=[],photo="",pending="";
+var $=function(i){return document.getElementById(i)};
+function load(){try{var v=localStorage.getItem(KEY);if(v)return JSON.parse(v)}catch(e){}return mem}
+function store(a){mem=a;try{localStorage.setItem(KEY,JSON.stringify(a));return true}catch(e){return false}}
+function today(){return new Date().toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})}
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+
+function show(w){
+  $("pSearch").classList.toggle("show",w==="s");
+  $("pNew").classList.toggle("show",w==="n");
+  $("pPass").classList.toggle("show",w==="p");
+  $("pUpd").classList.toggle("show",w==="u");
+  $("pPay").classList.toggle("show",w==="y");
+  $("bSearch").classList.toggle("active",w==="s");
+  $("bNew").classList.toggle("active",w==="n");
+  $("bPass").classList.toggle("active",w==="p");
+  $("bUpd").classList.toggle("active",w==="u");
+  $("bPay").classList.toggle("active",w==="y");
+}
+$("bSearch").onclick=function(){stopCam();show("s");render();$("q").focus()};
+$("bNew").onclick=function(){if(editIdx>=0){endEdit();clearForm()}show("n");$("dt").value=today();$("n").focus()};
+
+/* camera */
+var stream=null,facing="environment",EMPTY='<div><span class="big">📷</span>Tap here to open camera</div>';
+function stopCam(){if(stream){stream.getTracks().forEach(function(t){t.stop()});stream=null}$("lb").classList.remove("show")}
+function startCam(){
+  stopCam();
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){$("cam").click();return}
+  navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:facing}},audio:false}).then(function(s){
+    stream=s;pending="";photo="";
+    $("photo").innerHTML='<video id="vid" autoplay playsinline muted></video>';
+    $("vid").srcObject=s;
+    $("lb").classList.add("show");$("pb").classList.remove("show");$("pst").textContent="";
+  }).catch(function(){
+    $("pst").style.color="var(--err)";
+    $("pst").textContent="Camera is blocked. Please allow camera permission, or open this page link directly in Chrome, then tap again.";
+  });
+}
+$("snap").onclick=function(){
+  var v=$("vid");if(!v||!v.videoWidth)return;
+  var m=700,s=Math.min(1,m/Math.max(v.videoWidth,v.videoHeight));
+  var c=document.createElement("canvas");c.width=Math.round(v.videoWidth*s);c.height=Math.round(v.videoHeight*s);
+  c.getContext("2d").drawImage(v,0,0,c.width,c.height);
+  pending=c.toDataURL("image/jpeg",0.7);photo="";
+  stopCam();
+  $("photo").innerHTML='<img alt="Patient photo" src="'+pending+'">';
+  $("pb").classList.add("show");
+};
+$("flip").onclick=function(){facing=facing==="environment"?"user":"environment";startCam()};
+$("cx").onclick=function(){stopCam();pending="";photo="";$("photo").innerHTML=EMPTY};
+$("photo").onclick=function(){if(!stream)startCam()};
+$("photo").onkeydown=function(e){if((e.key==="Enter"||e.key===" ")&&!stream){e.preventDefault();startCam()}};
+$("retake").onclick=startCam;
+$("cam").onchange=function(){
+  var f=this.files&&this.files[0];if(!f)return;
+  var r=new FileReader();
+  r.onload=function(){
+    var im=new Image();
+    im.onload=function(){
+      var m=700,s=Math.min(1,m/Math.max(im.width,im.height));
+      var c=document.createElement("canvas");c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);
+      c.getContext("2d").drawImage(im,0,0,c.width,c.height);
+      pending=c.toDataURL("image/jpeg",0.7);photo="";
+      $("photo").innerHTML='<img alt="Patient photo" src="'+pending+'">';
+      $("pb").classList.add("show");$("pst").textContent="";
+    };
+    im.src=r.result;
+  };
+  r.readAsDataURL(f);
+  this.value="";
+};
+$("ok").onclick=function(){
+  if(!pending)return;
+  photo=pending;$("pb").classList.remove("show");$("pst").textContent="✓ Photo accepted";
+};
+
+/* save */
+function msg(t,e){$("msg").textContent=t;$("msg").className="msg"+(e?" err":"")}
+$("save").onclick=function(){
+  var name=$("n").value.trim();
+  var treat=[].slice.call(document.querySelectorAll('input[name="t"]:checked')).map(function(x){return x.value});
+  if(!name){msg("Please enter the patient name.",1);return}
+  if(!treat.length){msg("Please choose a treatment.",1);return}
+  if(pending&&!photo){msg("Please press OK on the photo (or Retake).",1);return}
+  stopCam();
+  var list=load();
+  var oldRec=editIdx>=0?list.splice(editIdx,1)[0]:null;
+  var hist=oldRec?(oldRec.photos||(oldRec.photo?[{d:oldRec.date,s:oldRec.photo}]:[])):[];
+  if(photo&&(!oldRec||photo!==oldRec.photo))hist.unshift({d:today(),s:photo});
+  list.unshift({name:name,pass:oldRec?(oldRec.pass||patPass(oldRec.name)):patPass(name),age:$("ag").value,shade:getShade(),total:oldRec?oldRec.total:"",visits:oldRec?(oldRec.visits||[]):[],date:$("dt").value||today(),phone:$("ph").value.trim(),treat:treat,rct:treat.indexOf("RCT")>-1?getRct():null,bridge:treat.indexOf("Panel Bridge")>-1?getBr():null,braces:treat.indexOf("Fixed Braces")>-1?getFb():null,photos:hist,photo:hist.length?hist[0].s:""});
+  var saved=store(list);
+  $("n").value="";$("ag").value="";$("ph").value="";setShade("");
+  [].forEach.call(document.querySelectorAll('input[name="t"]'),function(x){x.checked=false});
+  photo="";pending="";
+  $("photo").innerHTML='<div><span class="big">📷</span>Tap here to open camera</div>';
+  $("pb").classList.remove("show");$("pst").textContent="";
+  var wasEdit=!!oldRec;resetRct();resetBr();resetFb();endEdit();
+  msg(saved?(wasEdit?"✓ Patient updated. Password: ":"✓ Patient saved. Password: ")+list[0].pass:"Saved for now, but this browser could not store it permanently.",!saved);
+  setTimeout(function(){msg("")},10000);
+};
+
+/* search */
+function render(){
+  var t=$("q").value.trim(),list=load();
+  if(!t){$("res").innerHTML='<div class="p"><div class="bd">Enter the patient password to see the data.</div></div>';return}
+  var f=list.filter(function(p){return (p.pass||patPass(p.name))===t});curRes=f;
+  $("res").innerHTML=f.length?f.map(function(p,idx){
+    var tr=(p.treat||[]).map(function(x){return '<span class="tg">'+esc(x)+'</span>'}).join("");
+    return '<div class="p">'+(p.photo?'<img class="im" alt="Photo of '+esc(p.name)+'" src="'+p.photo+'">':'<div class="noim">👤</div>')+
+      '<div class="bd"><div class="nm">'+esc(p.name)+'</div>'+
+      '<div class="ln"><b>Age:</b> '+esc(p.age||"-")+'</div>'+
+      '<div class="ln"><b>Date:</b> '+esc(p.date)+'</div>'+
+      (shTxt(p.shade)?'<div class="ln"><b>Shade:</b> '+esc(shTxt(p.shade))+'</div>':'')+
+      (p.visits&&p.visits.length?'<div class="ln"><b>Visits:</b></div>'+p.visits.map(function(v,i){return '<div class="ln">'+(i+1)+'. '+esc(v.d?fmtD(v.d):"-")+' — Rs '+esc(v.p||0)+'</div>'}).join("")+'<div class="ln"><b>Total payment:</b> Rs '+esc(p.total||0)+'</div><div class="ln"><b>Paid:</b> Rs '+vSum(p.visits)+'</div><div class="ln"><b>Remaining:</b> Rs '+((Number(p.total)||0)-vSum(p.visits))+'</div>':'')+
+      (p.phone?'<div class="ln"><b>Phone:</b> '+esc(p.phone)+'</div>':'')+
+      '<div class="ln"><b>Treatment:</b></div><div>'+(tr||"-")+'</div>'+((p.rct&&(p.rct.lu||p.rct.ru||p.rct.ld||p.rct.rd))?'<div class="ln"><b>RCT teeth:</b></div>'+rctView(p.rct):'')+((p.bridge&&(p.bridge.lu||p.bridge.ru||p.bridge.ld||p.bridge.rd))?'<div class="ln"><b>Panel Bridge teeth:</b></div>'+rctView(p.bridge):'')+(fbHas(p.braces)?'<div class="ln"><b>Fixed Braces:</b></div><div>'+fbView(p.braces)+'</div>':'')+'<button class="allb" type="button" data-cp="'+idx+'">📋 Copy</button></div></div>';
+  }).join(""):'<div class="p"><div class="bd">No patient found.</div></div>';
+}
+$("q").oninput=render;
+var curRes=[];
+function copyTxt(t,b,lab){
+  var done=function(){b.textContent="✓ Copied";setTimeout(function(){b.textContent=lab},1500)};
+  var fb=function(){var ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy")}catch(x){}document.body.removeChild(ta);done()};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,fb)}else{fb()}
+}
+function qTxt(r){return "Left up: "+(r.lu||"-")+", Right up: "+(r.ru||"-")+", Left down: "+(r.ld||"-")+", Right down: "+(r.rd||"-")}
+function pText(p){
+  var L=["Name: "+p.name,"Age: "+(p.age||"-"),"Date: "+p.date];
+  if(shTxt(p.shade))L.push("Shade: "+shTxt(p.shade));
+  if(p.visits&&p.visits.length){p.visits.forEach(function(v,i){L.push("Visit "+(i+1)+": "+(v.d?fmtD(v.d):"-")+" - Rs "+(v.p||0))});L.push("Total: Rs "+(p.total||0)+", Paid: Rs "+ySum(p.visits)+", Remaining: Rs "+((Number(p.total)||0)-ySum(p.visits)))}
+  if(p.phone)L.push("Phone: "+p.phone);
+  L.push("Treatment: "+((p.treat||[]).join(", ")||"-"));
+  if(p.rct&&(p.rct.lu||p.rct.ru||p.rct.ld||p.rct.rd))L.push("RCT teeth - "+qTxt(p.rct));
+  if(p.bridge&&(p.bridge.lu||p.bridge.ru||p.bridge.ld||p.bridge.rd))L.push("Panel Bridge teeth - "+qTxt(p.bridge));
+  if(fbHas(p.braces))L.push("Fixed Braces - Wire: "+((p.braces.w||[]).join(", ")||"-")+"; Extra: "+((p.braces.e||[]).join(", ")||"-"));
+  return L.join("\n");
+}
+$("res").onclick=function(e){
+  var b=e.target.closest&&e.target.closest("button[data-cp]");if(!b)return;
+  var p=curRes[b.getAttribute("data-cp")];if(p)copyTxt(pText(p),b,"📋 Copy");
+};
+
+/* patient password */
+function patPass(n){var u=String(n).trim().toLowerCase();return u?autoPass(u):""}
+$("n").oninput=function(){if(editIdx<0)$("pp").value=patPass(this.value)};
+function fmtD(s){var d=new Date(s+"T00:00:00");return isNaN(d)?s:d.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})}
+
+/* update patient */
+var editIdx=-1;
+/* payment and visits */
+var YMAX=10,yIdx=-1;
+function ySum(a){var t=0;a.forEach(function(v){t+=Number(v.p)||0});return t}
+function yCalc(){
+  var t=0;[].forEach.call(document.querySelectorAll("#yv .vp"),function(x){t+=Number(x.value)||0});
+  var tp=Number($("ytp").value)||0,r=tp-t,s="";
+  if(tp||t){s="Paid: Rs "+t;if(tp)s+=r>=0?"  |  Remaining: Rs "+r:"  |  Extra paid: Rs "+(-r)}
+  $("ytot").textContent=s;
+}
+function yRow(d,p){
+  var n=$("yv").children.length+1;if(n>YMAX)return;
+  var r=document.createElement("div");r.className="vrow";
+  r.innerHTML='<div class="vn">Visit '+n+'</div><input type="date" class="vd" aria-label="Visit '+n+' date"><input type="number" min="0" class="vp" placeholder="Payment (Rs)" aria-label="Visit '+n+' payment">';
+  r.querySelector(".vd").value=d||"";r.querySelector(".vp").value=p||"";
+  r.querySelector(".vp").oninput=yCalc;
+  $("yv").appendChild(r);
+  $("yadd").classList.toggle("hide",$("yv").children.length>=YMAX);
+}
+$("yadd").onclick=function(){yRow("","")};
+$("ytp").oninput=yCalc;
+$("bPay").onclick=function(){stopCam();show("y");$("ymsg").textContent="";$("yq").value="";$("ydet").classList.add("hide");yIdx=-1;$("yq").focus()};
+$("yq").onkeydown=function(e){if(e.key==="Enter")$("ybtn").click()};
+$("ybtn").onclick=function(){
+  var t=$("yq").value.trim(),list=load(),i=-1,k;
+  if(t){for(k=0;k<list.length;k++){if((list[k].pass||patPass(list[k].name))===t){i=k;break}}}
+  if(i<0){$("ymsg").textContent="No patient found for this password.";$("ydet").classList.add("hide");yIdx=-1;return}
+  var p=list[i];yIdx=i;$("ymsg").textContent="";
+  $("yname").textContent=p.name;$("ytp").value=p.total||"";
+  $("yv").innerHTML="";
+  var vs=p.visits||[];
+  vs.forEach(function(v){yRow(v.d,v.p)});
+  if(vs.length<YMAX)yRow("","");
+  yCalc();$("ysm").textContent="";$("ydet").classList.remove("hide");
+};
+$("ysave").onclick=function(){
+  var list=load();if(yIdx<0||!list[yIdx])return;
+  var vs=[].map.call($("yv").children,function(r){return{d:r.querySelector(".vd").value,p:r.querySelector(".vp").value}}).filter(function(v){return v.d||v.p});
+  list[yIdx].total=$("ytp").value;list[yIdx].visits=vs;
+  var ok=store(list);
+  $("ysm").className="msg"+(ok?"":" err");
+  $("ysm").textContent=ok?"✓ Saved":"Saved for now, but this browser could not store it permanently.";
+  setTimeout(function(){$("ysm").textContent=""},4000);
+};
+/* Shade */
+function getShade(){return [].slice.call(document.querySelectorAll('input[name="sh"]:checked')).map(function(x){return x.value})}
+function setShade(v){var a=Array.isArray(v)?v:(v?[v]:[]);[].forEach.call(document.querySelectorAll('input[name="sh"]'),function(x){x.checked=a.indexOf(x.value)>-1})}
+function shTxt(s){return Array.isArray(s)?s.join(", "):(s||"")}
+/* Fixed Braces options */
+var fx=document.querySelector('input[name="t"][value="Fixed Braces"]');
+function vals(n){return [].slice.call(document.querySelectorAll('input[name="'+n+'"]:checked')).map(function(x){return x.value})}
+function getFb(){return{w:vals("fw"),e:vals("fe")}}
+function setFb(o){[].forEach.call(document.querySelectorAll('input[name="fw"],input[name="fe"]'),function(x){var a=o?(x.name==="fw"?o.w:o.e):null;x.checked=!!a&&a.indexOf(x.value)>-1});$("fbx").classList.toggle("hide",!fx.checked)}
+function resetFb(){setFb(null);$("fbx").classList.add("hide")}
+fx.onchange=function(){if(!this.checked)setFb(null);$("fbx").classList.toggle("hide",!this.checked)};
+function fbHas(o){return !!o&&((o.w&&o.w.length>0)||(o.e&&o.e.length>0))}
+function fbView(o){return (o.w||[]).map(function(x){return '<span class="tg">Wire '+esc(x)+'</span>'}).join("")+(o.e||[]).map(function(x){return '<span class="tg">'+esc(x)+'</span>'}).join("")}
+/* Panel Bridge tooth chart */
+var rb=document.querySelector('input[name="t"][value="Panel Bridge"]');
+var BI=["b_lu","b_ru","b_ld","b_rd"];
+function getBr(){var o={};RK.forEach(function(k,i){o[k]=$(BI[i]).value});return o}
+function setBr(o){RK.forEach(function(k,i){$(BI[i]).value=(o&&o[k])||""});$("pbx").classList.toggle("hide",!rb.checked)}
+function resetBr(){setBr(null);$("pbx").classList.add("hide")}
+rb.onchange=function(){if(!this.checked)setBr(null);$("pbx").classList.toggle("hide",!this.checked)};
+BI.forEach(function(id){$(id).oninput=function(){this.value=this.value.replace(/[^1-8]/g,"").slice(0,8)}});
+/* RCT tooth chart */
+var rc=document.querySelector('input[name="t"][value="RCT"]');
+var RI=["r_lu","r_ru","r_ld","r_rd"],RK=["lu","ru","ld","rd"];
+function getRct(){var o={};RK.forEach(function(k,i){o[k]=$(RI[i]).value});return o}
+function setRct(o){RK.forEach(function(k,i){$(RI[i]).value=(o&&o[k])||""});$("rct").classList.toggle("hide",!rc.checked)}
+function resetRct(){setRct(null);$("rct").classList.add("hide")}
+rc.onchange=function(){if(!this.checked)setRct(null);$("rct").classList.toggle("hide",!this.checked)};
+RI.forEach(function(id){$(id).oninput=function(){this.value=this.value.replace(/[^1-8]/g,"").slice(0,8)}});
+function rctView(r){return '<div class="rv"><div>'+esc(r.lu||"-")+'</div><div>'+esc(r.ru||"-")+'</div><div>'+esc(r.ld||"-")+'</div><div>'+esc(r.rd||"-")+'</div></div>'}
+var MAXV=10;
+function todayISO(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function vSum(a){var t=0;a.forEach(function(v){t+=Number(v.p)||0});return t}
+function updVAdd(){$("vadd").classList.toggle("hide",editIdx<0||$("vbox").children.length>=MAXV)}
+function vTot(){
+  var t=0;[].forEach.call(document.querySelectorAll(".vp"),function(x){t+=Number(x.value)||0});
+  var tp=Number($("tp").value)||0,r=tp-t,s="";
+  if(tp||t){s="Paid: Rs "+t;if(tp)s+=r>=0?"  |  Remaining: Rs "+r:"  |  Extra paid: Rs "+(-r)}
+  $("vtot").textContent=s;
+}
+function addVRow(d,p){
+  var n=$("vbox").children.length+1;if(n>MAXV)return;
+  var r=document.createElement("div");r.className="vrow";
+  r.innerHTML='<div class="vn">Visit '+n+'</div><input type="date" class="vd" aria-label="Visit '+n+' date"><input type="number" min="0" class="vp" placeholder="Payment (Rs)" aria-label="Visit '+n+' payment">';
+  r.querySelector(".vd").value=d||"";r.querySelector(".vp").value=p||"";
+  r.querySelector(".vp").oninput=vTot;
+  $("vbox").appendChild(r);updVAdd();
+}
+function setVisits(arr){
+  $("vbox").innerHTML="";
+  (arr&&arr.length?arr:[{d:"",p:""}]).forEach(function(v){addVRow(v.d,v.p)});
+  vTot();
+}
+function getVisits(){
+  return [].map.call($("vbox").children,function(r){return {d:r.querySelector(".vd").value,p:r.querySelector(".vp").value}}).filter(function(v){return v.d||v.p});
+}
+
+function endEdit(){editIdx=-1;$("nh").textContent="New Patient";$("save").textContent="Save Patient";$("cedit").classList.add("hide");$("allb").classList.add("hide");$("gal").classList.add("hide");$("gal").innerHTML=""}
+function clearForm(){
+  $("n").value="";$("ag").value="";$("ph").value="";setShade("");$("pp").value="";
+  [].forEach.call(document.querySelectorAll('input[name="t"]'),function(x){x.checked=false});
+  resetRct();resetBr();resetFb();photo="";pending="";$("photo").innerHTML=EMPTY;$("pb").classList.remove("show");$("pst").textContent="";
+}
+$("cedit").onclick=function(){stopCam();endEdit();clearForm();show("")};
+$("bUpd").onclick=function(){stopCam();show("u");$("umsg").textContent="";$("uq").value="";$("uq").focus()};
+$("uq").onkeydown=function(e){if(e.key==="Enter")$("ubtn").click()};
+$("allb").onclick=function(){
+  var g=$("gal");
+  if(!g.classList.contains("hide")){g.classList.add("hide");$("allb").textContent="🖼 Show All Images";return}
+  var p=load()[editIdx];if(!p)return;
+  var h=p.photos||(p.photo?[{d:p.date,s:p.photo}]:[]);
+  g.innerHTML=h.length?h.map(function(x){return '<figure><img alt="Saved image" src="'+x.s+'"><figcaption>'+esc(x.d)+'</figcaption></figure>'}).join(""):'<div>No saved images.</div>';
+  g.classList.remove("hide");$("allb").textContent="🖼 Hide All Images";
+};
+$("ubtn").onclick=function(){
+  var t=$("uq").value.trim(),list=load(),i=-1,k;
+  if(t){for(k=0;k<list.length;k++){if((list[k].pass||patPass(list[k].name))===t){i=k;break}}}
+  if(i<0){$("umsg").textContent="No patient found for this password.";return}
+  var p=list[i];editIdx=i;
+  show("n");
+  $("nh").textContent="Update Patient";$("save").textContent="Update Patient";$("cedit").classList.remove("hide");$("allb").classList.remove("hide");$("allb").textContent="🖼 Show All Images";$("gal").classList.add("hide");
+  $("n").value=p.name;$("ag").value=p.age||"";$("ph").value=p.phone||"";setShade(p.shade);
+  $("dt").value=p.date;
+  $("pp").value=p.pass||patPass(p.name);
+  [].forEach.call(document.querySelectorAll('input[name="t"]'),function(x){x.checked=(p.treat||[]).indexOf(x.value)>-1});
+  setRct(p.rct);setBr(p.bridge);setFb(p.braces);pending="";photo=p.photo||"";
+  $("photo").innerHTML=p.photo?'<img alt="Patient photo" src="'+p.photo+'">':EMPTY;
+  $("pb").classList.remove("show");$("pst").textContent=p.photo?"Current photo (tap it to retake)":"";
+  $("umsg").textContent="";
+};
+$("bPass").onclick=function(){stopCam();show("p");renderPass();$("fn").focus()};
+function renderPass(){
+  var t=$("fn").value.trim().toLowerCase();
+  if(!t){$("fres").innerHTML='<div class="p"><div class="bd">Type the patient name to see the saved password.</div></div>';return}
+  var f=load().filter(function(p){return String(p.name).toLowerCase().indexOf(t)>-1});
+  $("fres").innerHTML=f.length?f.map(function(p){
+    var pw=p.pass||patPass(p.name);
+    return '<div class="p"><div class="bd"><div class="nm">'+esc(p.name)+'</div><div class="cp"><input type="text" readonly value="'+esc(pw)+'" aria-label="Password"><button class="cbtn" type="button" data-pw="'+esc(pw)+'" aria-label="Copy password">📋</button></div></div></div>';
+  }).join(""):'<div class="p"><div class="bd">No saved patient found.</div></div>';
+}
+$("fn").oninput=renderPass;
+$("fres").onclick=function(e){
+  var b=e.target.closest&&e.target.closest("button[data-pw]");if(!b)return;
+  var t=b.getAttribute("data-pw");
+  var done=function(){b.textContent="✓";setTimeout(function(){b.textContent="📋"},1500)};
+  var fb=function(){var ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy")}catch(x){}document.body.removeChild(ta);done()};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,fb)}else{fb()}
+};
+$("cpy").onclick=function(){
+  var t=$("pp").value;if(!t)return;
+  var done=function(){$("cpy").textContent="✓";setTimeout(function(){$("cpy").textContent="📋"},1500)};
+  var fb=function(){$("pp").select();try{document.execCommand("copy")}catch(e){}done()};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,fb)}else{fb()}
+};
+
+/* login */
+var USERS={"shop":"Ali"};
+function autoPass(u){
+  if(Object.prototype.hasOwnProperty.call(USERS,u))return USERS[u];
+  var h=5381,i,s="",A="ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789";
+  for(i=0;i<u.length;i++){h=((h<<5)+h+u.charCodeAt(i))>>>0}
+  for(i=0;i<6;i++){s+=A.charAt(h%A.length);h=Math.floor(h/A.length)+u.length*7+i*13}
+  return s;
+}
+$("lu").oninput=function(){
+  var u=this.value.trim().toLowerCase();
+  $("lp").value=u?autoPass(u):"";
+  $("lerr").textContent="";
+};
+$("lgo").onclick=function(){
+  var u=$("lu").value.trim().toLowerCase(),p=$("lp").value;
+  if(u==="shop"&&p==="Ali"){
+    $("login").classList.add("hide");$("app").classList.remove("hide");$("lp").value="";$("lerr").textContent="";
+  }else{$("lerr").textContent="Wrong name or password."}
+};
+$("lp").onkeydown=function(e){if(e.key==="Enter")$("lgo").click()};
+$("lu").onkeydown=function(e){if(e.key==="Enter")$("lp").focus()};
+$("lo").onclick=function(){stopCam();$("app").classList.add("hide");$("login").classList.remove("hide");$("lu").value="";show("")};
+</script>
+<script>
+
+</script>
+<script>
+document.getElementById("helloBtn")?.addEventListener("click", () => {
+  document.getElementById("message").textContent = "Great! Your JavaScript is working.";
+});
+</script>
+</body>
+</html>
